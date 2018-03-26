@@ -4,24 +4,24 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.beust.jcommander.JCommander;
 import com.opencsv.CSVReader;
 
+import io.commandline.CommandlineOptions;
+import io.commandline.HelpOption;
 import kn.uni.voronoitreemap.IO.WriteStatusObject;
 import kn.uni.voronoitreemap.interfaces.data.TreeData;
 import kn.uni.voronoitreemap.j2d.PolygonSimple;
 import kn.uni.voronoitreemap.treemap.VoronoiTreemap;
 
 public class VoronoiTreemapFromTable {
+    private final static String CURRENT_VERSION = "current version: 1.0";
 
     private static String classpath = null;
 
@@ -29,25 +29,40 @@ public class VoronoiTreemapFromTable {
     private static List<String> columnNames = new ArrayList<String>();
 
     private static final int border = 6;
-    private static double size = 800;
+    private static double size;
 
     /**
      * reads a csv or tsv file and creates a voronoi treemap from the given data
      *
-     * @param args
+     * @param argv
      * @throws IOException
      */
-    public static void main(String[] args) throws IOException {
-
-        if (args.length > 0) {
-            inFile = args[0].replace('\\', '/');
-            for (int i = 1; i < args.length; i++) {
-                if(isNumeric(args[i]))
-                    size = Integer.parseInt(args[i]);
-                else
-                    columnNames.add(args[i]);
-            }
+    public static void main(String ... argv) throws IOException {
+        CommandlineOptions commandlineOptions = new CommandlineOptions();
+        try {
+            JCommander.newBuilder()
+                    .addObject(commandlineOptions)
+                    .build()
+                    .parse(argv);
+        } catch (com.beust.jcommander.ParameterException e) { //if not all required parameters were provided
+            HelpOption.printHelpOption();
         }
+
+        if (commandlineOptions.isHelp()) {
+            HelpOption.printHelpOption();
+        }
+
+        if (commandlineOptions.isVersion()) {
+            System.out.println(CURRENT_VERSION);
+        }
+
+        if (commandlineOptions.getInfile() != null) {
+            inFile = commandlineOptions.getInfile();
+            inFile.replace('\\', '/');
+        }
+
+        size = commandlineOptions.getSize();
+        columnNames = commandlineOptions.getColumnNames();
 
         // create a convex root polygon
         PolygonSimple rootPolygon = new PolygonSimple();
@@ -66,39 +81,42 @@ public class VoronoiTreemapFromTable {
 //			rootPolygon.add(x, y);
 //		}
 
-        List<RowData> csvRows= parseCSV(inFile, columnNames);
-        Collections.sort(csvRows, new RowDataComparator());
+        try {
+            List<RowData> csvRows= parseCSV(inFile, columnNames);
+            Collections.sort(csvRows, new RowDataComparator());
 
-        TreeData data = createHierarchy(csvRows);
-        // data.setWeight("file036", 4);// increase cell size (leafs only)
+            TreeData data = createHierarchy(csvRows);
+            // data.setWeight("file036", 4);// increase cell size (leafs only)
 
-        VoronoiTreemap treemap = new VoronoiTreemap();
-        // VoronoiCore.setDebugMode(); //shows iteration process
-        treemap.setRootPolygon(rootPolygon);
-        treemap.setTreeData(data);
-        treemap.setCancelOnMaxIteration(true);
-        treemap.setNumberMaxIterations(1500);
-        treemap.setCancelOnThreshold(true);
-        treemap.setErrorAreaThreshold(0.01);
+            VoronoiTreemap treemap = new VoronoiTreemap();
+            // VoronoiCore.setDebugMode(); //shows iteration process
+            treemap.setRootPolygon(rootPolygon);
+            treemap.setTreeData(data);
+            treemap.setCancelOnMaxIteration(true);
+            treemap.setNumberMaxIterations(1500);
+            treemap.setCancelOnThreshold(true);
+            treemap.setErrorAreaThreshold(0.01);
 //		 treemap.setUniformWeights(true);
-        treemap.setNumberThreads(1);
+            treemap.setNumberThreads(1);
 
-        // add result handler
+            // add result handler
 //		treemap.setStatusObject(new PDFStatusObject("miniHierarchy", treemap));
 //		treemap.setStatusObject(new PNGStatusObject("miniHierarchy", treemap));
-        try {
-            classpath = VoronoiTreemapFromTable.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath().replace("VoronoiTreemapFromTable.jar", "");
-        } catch (URISyntaxException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            try {
+                classpath = VoronoiTreemapFromTable.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath().replace("VoronoiTreemapFromTable.jar", "");
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
+            treemap.setStatusObject(new WriteStatusObject(classpath + "VoroTreemap", treemap));
+            treemap.computeLocked();
+            List<PolygonData> polygonData = readPolygonData(classpath + "VoroTreemap.txt");
+
+            createColorEncoding(polygonData, csvRows);
+
+            writeToHtml(polygonData, "VoroTreemap");
+        } catch (NullPointerException e) {
+            System.err.println("You did not provide an input file!");
         }
-        treemap.setStatusObject(new WriteStatusObject(classpath + "VoroTreemap", treemap));
-        treemap.computeLocked();
-        List<PolygonData> polygonData = readPolygonData(classpath + "VoroTreemap.txt");
-
-        createColorEncoding(polygonData, csvRows);
-
-        writeToHtml(polygonData, "VoroTreemap");
 
     }
 
