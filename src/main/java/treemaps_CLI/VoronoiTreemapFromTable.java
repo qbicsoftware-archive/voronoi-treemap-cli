@@ -9,6 +9,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Scanner;
 
 import com.beust.jcommander.JCommander;
 import com.opencsv.CSVReader;
@@ -46,10 +47,12 @@ public class VoronoiTreemapFromTable {
                     .parse(argv);
         } catch (com.beust.jcommander.ParameterException e) { //if not all required parameters were provided
             HelpOption.printHelpOption();
+            askForNextInput(commandlineOptions);
         }
 
         if (commandlineOptions.isHelp()) {
             HelpOption.printHelpOption();
+            askForNextInput(commandlineOptions);
         }
 
         if (commandlineOptions.isVersion()) {
@@ -81,7 +84,6 @@ public class VoronoiTreemapFromTable {
 //			rootPolygon.add(x, y);
 //		}
 
-        try {
             List<RowData> csvRows= parseCSV(inFile, columnNames);
             Collections.sort(csvRows, new RowDataComparator());
 
@@ -114,10 +116,15 @@ public class VoronoiTreemapFromTable {
             createColorEncoding(polygonData, csvRows);
 
             writeToHtml(polygonData, "VoroTreemap");
-        } catch (NullPointerException e) {
-            System.err.println("You did not provide an input file!");
-        }
+    }
 
+    private static void askForNextInput(CommandlineOptions commandlineOptions) {
+        Scanner scanner = new Scanner(System.in);
+        String nextInput = scanner.nextLine();
+        JCommander.newBuilder()
+                .addObject(commandlineOptions)
+                .build()
+                .parse(nextInput);
     }
 
     /**
