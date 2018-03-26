@@ -1,7 +1,7 @@
 Voronoi-treemaps-CLI
 ======
 This is part of the voronoi visualisation of hierarchical data. See here for the visualisation: [Voronoi-treemaps-GUI](https://github.com/qbicsoftware/voronoi-treemaps-GUI).
-This tool creates a voronoi treemap from data provided from a csv or tsv file.
+This tool creates a voronoi treemap from data provided by a csv or tsv file.
 
 Quick Setup
 =====
