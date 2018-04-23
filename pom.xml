@@ -49,9 +49,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.beust</groupId>
-            <artifactId>jcommander</artifactId>
-            <version>1.72</version>
+            <groupId>info.picocli</groupId>
+            <artifactId>picocli</artifactId>
+            <version>3.0.0-beta-2</version>
         </dependency>
 
 

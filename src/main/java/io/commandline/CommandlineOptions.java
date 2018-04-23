@@ -1,45 +1,31 @@
 package io.commandline;
 
-import com.beust.jcommander.Parameter;
+import picocli.CommandLine.Option;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CommandlineOptions {
 
-    @Parameter(names = {"-f", "-file"}, description = "csv or tsv file to generate a Treemap from", required = true)
+    @Option(names = {"-f", "-file"}, description = "csv or tsv file to generate a Treemap from", required = true)
     private String infile;
 
-    @Parameter(names = {"-s", "-size"}, description = "size of the root polygon - default: 800")
-    private int size = 800;
+    @Option(names = {"-o", "-output"}, description = "output file path for the generated treemap html file")
+    private String output = "/tmp/";
 
-    @Parameter(names = {"-h", "-help"}, description = "show all possible commands with an explanation")
-    private boolean help = false;
-
-    @Parameter(names = {"-c", "-col"}, description = "names of the columns in the provided file")
+    @Option(names = {"-c", "-col"}, description = "names of the columns in the provided file", arity = "1..*")
     private List<String> columnNames = new ArrayList<>();
-
-    @Parameter(names = {"-v", "-version"}, description = "current version")
-    private boolean version = false;
-
-    public int getSize() {
-        return size;
-    }
 
     public String getInfile() {
         return infile;
     }
 
+    public String getOutput() {
+        return output;
+    }
+
     public List<String> getColumnNames() {
         return columnNames;
-    }
-
-    public boolean isHelp() {
-        return help;
-    }
-
-    public boolean isVersion() {
-        return version;
     }
 
 }

@@ -9,17 +9,15 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Scanner;
 
-import com.beust.jcommander.JCommander;
 import com.opencsv.CSVReader;
 
 import io.commandline.CommandlineOptions;
-import io.commandline.HelpOption;
 import kn.uni.voronoitreemap.IO.WriteStatusObject;
 import kn.uni.voronoitreemap.interfaces.data.TreeData;
 import kn.uni.voronoitreemap.j2d.PolygonSimple;
 import kn.uni.voronoitreemap.treemap.VoronoiTreemap;
+import picocli.CommandLine;
 
 public class VoronoiTreemapFromTable {
     private final static String CURRENT_VERSION = "current version: 1.0";
@@ -27,44 +25,22 @@ public class VoronoiTreemapFromTable {
     private static String classpath = null;
 
     private static String inFile;
+    private static String outputFile;
     private static List<String> columnNames = new ArrayList<String>();
 
     private static final int border = 6;
-    private static double size;
+    private static double size = 800;
 
     /**
      * reads a csv or tsv file and creates a voronoi treemap from the given data
      *
-     * @param argv
+     * @param args
      * @throws IOException
      */
-    public static void main(String ... argv) throws IOException {
-        CommandlineOptions commandlineOptions = new CommandlineOptions();
-        try {
-            JCommander.newBuilder()
-                    .addObject(commandlineOptions)
-                    .build()
-                    .parse(argv);
-        } catch (com.beust.jcommander.ParameterException e) { //if not all required parameters were provided
-            HelpOption.printHelpOption();
-            askForNextInput(commandlineOptions);
-        }
-
-        if (commandlineOptions.isHelp()) {
-            HelpOption.printHelpOption();
-            askForNextInput(commandlineOptions);
-        }
-
-        if (commandlineOptions.isVersion()) {
-            System.out.println(CURRENT_VERSION);
-        }
-
-        if (commandlineOptions.getInfile() != null) {
-            inFile = commandlineOptions.getInfile();
-            inFile.replace('\\', '/');
-        }
-
-        size = commandlineOptions.getSize();
+    public static void main(String[] args) throws IOException {
+        CommandlineOptions commandlineOptions = CommandLine.populateCommand(new CommandlineOptions(), args);
+        inFile = commandlineOptions.getInfile();
+        outputFile = commandlineOptions.getOutput();
         columnNames = commandlineOptions.getColumnNames();
 
         // create a convex root polygon
@@ -115,16 +91,7 @@ public class VoronoiTreemapFromTable {
 
             createColorEncoding(polygonData, csvRows);
 
-            writeToHtml(polygonData, "VoroTreemap");
-    }
-
-    private static void askForNextInput(CommandlineOptions commandlineOptions) {
-        Scanner scanner = new Scanner(System.in);
-        String nextInput = scanner.nextLine();
-        JCommander.newBuilder()
-                .addObject(commandlineOptions)
-                .build()
-                .parse(nextInput);
+            writeToHtml(polygonData, outputFile);
     }
 
     /**
@@ -137,8 +104,7 @@ public class VoronoiTreemapFromTable {
      * @throws IOException
      */
     private static List<RowData> parseCSV(String csvFilePath, List<String> columns) throws FileNotFoundException, IOException {
-
-        List<RowData> voroCells = new ArrayList<RowData>();
+        List<RowData> voroCells = new ArrayList<>();
 
         String filePath = csvFilePath;
         CSVReader reader = new CSVReader(new FileReader(filePath), '\t');
@@ -234,7 +200,6 @@ public class VoronoiTreemapFromTable {
      * @return
      */
     private static int addLevel(TreeData data, List<RowData> cellData, List<String> prevParentList, List<String> duplicateHelper, String parentTag, int prevNum, int i) {
-
         List<String> parentList = cellData.get(i).getLevels().subList(0, prevNum+1);
 
         while (parentList.equals(prevParentList)) {
@@ -285,7 +250,6 @@ public class VoronoiTreemapFromTable {
      * @throws IOException
      */
     private static List<PolygonData> readPolygonData(String txtFile) throws FileNotFoundException, IOException {
-
         List<PolygonData> polygonData = new ArrayList<PolygonData>();
 
         String name = null;
@@ -346,7 +310,6 @@ public class VoronoiTreemapFromTable {
      * @param polygonData
      */
     private static void createColorEncoding(List<PolygonData> polygonData, List<RowData> rowsData) {
-
         List<Double> ratios = new ArrayList<Double>();
         List<Double> ratiosLower = new ArrayList<Double>();
         List<Double> ratiosUpper = new ArrayList<Double>();
@@ -405,7 +368,6 @@ public class VoronoiTreemapFromTable {
      * @return minimum value of the list
      */
     public static double getMin(List<Double> values) {
-
         double min = Double.MAX_VALUE;
 
         for (double d : values) {
@@ -422,7 +384,6 @@ public class VoronoiTreemapFromTable {
      * @return maximum value of the list
      */
     public static double getMax(List<Double> values) {
-
         double max = -Double.MAX_VALUE;
 
         for (double d : values) {
@@ -454,7 +415,7 @@ public class VoronoiTreemapFromTable {
     private static void writeToHtml(List<PolygonData> polygonData, String outFile) throws IOException {
         StringBuilder contentBuilder = new StringBuilder();
         try {
-            BufferedReader in = new BufferedReader(new FileReader(classpath + outFile + "Template" + ".html"));
+            BufferedReader in = new BufferedReader(new FileReader("src/main/resources/VoroTreemapTemplate.html"));
             String str;
             while ((str = in.readLine()) != null) {
                 if(str.contains("~TreemapDepth~")) {
@@ -554,7 +515,7 @@ public class VoronoiTreemapFromTable {
         String content = contentBuilder.toString();
 
         try {
-            FileWriter htmlWriter = new FileWriter(classpath + outFile + ".html");
+            FileWriter htmlWriter = new FileWriter(outFile);
             htmlWriter.write(content);
             htmlWriter.close();
         } catch (IOException e) {
@@ -571,7 +532,6 @@ public class VoronoiTreemapFromTable {
      * @return fitting size for the given text
      */
     private static float fitTextIntoPolygon(String name, Font font, PolygonData pDat) {
-
         Font f = font;
         float size = 1000;
         f = f.deriveFont(size);
