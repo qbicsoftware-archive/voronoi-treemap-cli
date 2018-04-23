@@ -11,7 +11,7 @@ public class CommandlineOptions {
     private String infile;
 
     @Option(names = {"-o", "-output"}, description = "output file path for the generated treemap html file")
-    private String output = "/tmp/";
+    private String output = "/tmp/VoroTreemap.html";
 
     @Option(names = {"-c", "-col"}, description = "names of the columns in the provided file", arity = "1..*")
     private List<String> columnNames = new ArrayList<>();

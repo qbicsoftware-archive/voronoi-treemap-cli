@@ -6,9 +6,13 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
 import java.io.*;
 import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Properties;
 
 import com.opencsv.CSVReader;
 
@@ -414,8 +418,11 @@ public class VoronoiTreemapFromTable {
      */
     private static void writeToHtml(List<PolygonData> polygonData, String outFile) throws IOException {
         StringBuilder contentBuilder = new StringBuilder();
+
+        InputStream inputStream = VoronoiTreemapFromTable.class.getClassLoader().getResourceAsStream("VoroTreemapTemplate.html");
+
         try {
-            BufferedReader in = new BufferedReader(new FileReader("src/main/resources/VoroTreemapTemplate.html"));
+            BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
             String str;
             while ((str = in.readLine()) != null) {
                 if(str.contains("~TreemapDepth~")) {
