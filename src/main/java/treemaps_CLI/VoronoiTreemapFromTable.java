@@ -6,13 +6,9 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
 import java.io.*;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Properties;
 
 import com.opencsv.CSVReader;
 
@@ -23,13 +19,12 @@ import kn.uni.voronoitreemap.j2d.PolygonSimple;
 import kn.uni.voronoitreemap.treemap.VoronoiTreemap;
 import picocli.CommandLine;
 
+//TODO add logging, maybe new template?
 public class VoronoiTreemapFromTable {
-    private final static String CURRENT_VERSION = "current version: 1.0";
-
     private static String classpath = null;
 
-    private static String inFile;
-    private static String outputFile;
+    private static String inFilePath;
+    private static String outputFilePath;
     private static List<String> columnNames = new ArrayList<String>();
 
     private static final int border = 6;
@@ -42,9 +37,20 @@ public class VoronoiTreemapFromTable {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
+        if (args.length == 0) {
+            CommandLine.usage(new CommandlineOptions(), System.out);
+            System.exit(0);
+        }
+
         CommandlineOptions commandlineOptions = CommandLine.populateCommand(new CommandlineOptions(), args);
-        inFile = commandlineOptions.getInfile();
-        outputFile = commandlineOptions.getOutput();
+
+        if (commandlineOptions.isHelpRequested()) {
+            CommandLine.usage(new CommandlineOptions(), System.out);
+            System.exit(0);
+        }
+
+        inFilePath = commandlineOptions.getInfile();
+        outputFilePath = commandlineOptions.getOutput();
         columnNames = commandlineOptions.getColumnNames();
 
         // create a convex root polygon
@@ -64,7 +70,7 @@ public class VoronoiTreemapFromTable {
 //			rootPolygon.add(x, y);
 //		}
 
-            List<RowData> csvRows= parseCSV(inFile, columnNames);
+            List<RowData> csvRows= parseCSV(inFilePath, columnNames);
             Collections.sort(csvRows, new RowDataComparator());
 
             TreeData data = createHierarchy(csvRows);
@@ -95,7 +101,8 @@ public class VoronoiTreemapFromTable {
 
             createColorEncoding(polygonData, csvRows);
 
-            writeToHtml(polygonData, outputFile);
+            writeToHtml(polygonData, outputFilePath);
+        System.out.println("Treemap written to: " + outputFilePath);
     }
 
     /**
@@ -169,7 +176,6 @@ public class VoronoiTreemapFromTable {
      * @return TreeData object
      */
     private static TreeData createHierarchy(List<RowData> cellData) {
-
         TreeData data = new TreeData();
 
         List<String> duplicateHelper = new ArrayList<String>();
