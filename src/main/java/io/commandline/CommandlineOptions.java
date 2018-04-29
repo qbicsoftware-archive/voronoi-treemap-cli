@@ -16,6 +16,9 @@ public class CommandlineOptions {
     @Option(names = {"-c", "--col"}, description = "names of the columns in the provided file", arity = "1..*")
     private List<String> columnNames = new ArrayList<>();
 
+    @Option(names = {"-t", "temporary"}, description = "delete the generated treemap html file automatically")
+    private boolean temporaryHtml = false;
+
     @Option(names = {"-h", "--help"}, description = "display a help message", usageHelp = true)
     private boolean helpRequested;
 
@@ -29,6 +32,10 @@ public class CommandlineOptions {
 
     public List<String> getColumnNames() {
         return columnNames;
+    }
+
+    public boolean isTemporaryHtml() {
+        return temporaryHtml;
     }
 
     public boolean isHelpRequested() {

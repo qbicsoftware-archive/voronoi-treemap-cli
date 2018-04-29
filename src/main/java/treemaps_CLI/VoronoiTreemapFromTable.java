@@ -26,6 +26,7 @@ public class VoronoiTreemapFromTable {
     private static String inFilePath;
     private static String outputFilePath;
     private static List<String> columnNames = new ArrayList<String>();
+    private static boolean isTemporaryHtml;
 
     private static final int border = 6;
     private static double size = 800;
@@ -52,6 +53,7 @@ public class VoronoiTreemapFromTable {
         inFilePath = commandlineOptions.getInfile();
         outputFilePath = commandlineOptions.getOutput();
         columnNames = commandlineOptions.getColumnNames();
+        isTemporaryHtml = commandlineOptions.isTemporaryHtml();
 
         // create a convex root polygon
         PolygonSimple rootPolygon = new PolygonSimple();
@@ -60,15 +62,6 @@ public class VoronoiTreemapFromTable {
         rootPolygon.add(size+border, border);
         rootPolygon.add(size+border, size+border);
         rootPolygon.add(border, size+border);
-
-//		int numPoints = 7;
-//		for (int j = 0; j < numPoints; j++) {
-//			double angle = 2.0 * Math.PI * (j * 1.0 / numPoints);
-//			double rotate = 2.0 * Math.PI / numPoints / 2;
-//			double y = Math.sin(angle + rotate) * height + height;
-//			double x = Math.cos(angle + rotate) * width + width;
-//			rootPolygon.add(x, y);
-//		}
 
             List<RowData> csvRows= parseCSV(inFilePath, columnNames);
             Collections.sort(csvRows, new RowDataComparator());
@@ -101,8 +94,7 @@ public class VoronoiTreemapFromTable {
 
             createColorEncoding(polygonData, csvRows);
 
-            writeToHtml(polygonData, outputFilePath);
-        System.out.println("Treemap written to: " + outputFilePath);
+            writeToHtml(polygonData, outputFilePath, isTemporaryHtml);
     }
 
     /**
@@ -422,7 +414,7 @@ public class VoronoiTreemapFromTable {
      * @param outFile
      * @throws IOException
      */
-    private static void writeToHtml(List<PolygonData> polygonData, String outFile) throws IOException {
+    private static void writeToHtml(List<PolygonData> polygonData, String outFile, boolean writeTemporaryFile) throws IOException {
         StringBuilder contentBuilder = new StringBuilder();
 
         InputStream inputStream = VoronoiTreemapFromTable.class.getClassLoader().getResourceAsStream("VoroTreemapTemplate.html");
@@ -528,9 +520,20 @@ public class VoronoiTreemapFromTable {
         String content = contentBuilder.toString();
 
         try {
-            FileWriter htmlWriter = new FileWriter(outFile);
-            htmlWriter.write(content);
-            htmlWriter.close();
+            if (writeTemporaryFile) {
+                File temp = File.createTempFile("voroTreemap", ".html");
+                temp.deleteOnExit();
+                FileWriter htmlWriter = new FileWriter(temp);
+                htmlWriter.write(content);
+                htmlWriter.close();
+                outputFilePath = temp.getAbsolutePath();
+                System.out.println("Treemap written to temporary filepath: " + temp.getAbsolutePath());
+            } else {
+                FileWriter htmlWriter = new FileWriter(outputFilePath);
+                htmlWriter.write(content);
+                htmlWriter.close();
+                System.out.println("Treemap written to: " + outputFilePath);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -591,4 +594,7 @@ public class VoronoiTreemapFromTable {
         return size;
     }
 
+    public static String getOutputFilePath() {
+        return outputFilePath;
+    }
 }
