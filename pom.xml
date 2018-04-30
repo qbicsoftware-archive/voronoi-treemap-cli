@@ -7,14 +7,29 @@
     <groupId>life.qbic</groupId>
     <artifactId>voronoi-treemaps-cli</artifactId>
     <version>1.0.2-SNAPSHOT</version>
+    <packaging>jar</packaging>
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>treemaps_CLI.VoronoiTreemapFromTable</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
                 </configuration>
             </plugin>
         </plugins>
@@ -25,7 +40,33 @@
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
+
+        <repository>
+            <id>nexus-snapshots</id>
+            <name>QBiC Snapshots</name>
+            <url>https://qbic-repo.am10.uni-tuebingen.de/repository/maven-snapshots</url>
+        </repository>
+        <repository>
+        <id>nexus-releases</id>
+        <name>QBiC Releases</name>
+        <url>https://qbic-repo.am10.uni-tuebingen.de/repository/maven-releases</url>
+        </repository>
     </repositories>
+
+    <distributionManagement>
+        <repository>
+            <uniqueVersion>true</uniqueVersion>
+            <id>nexus-releases</id>
+            <name>QBiC Releases</name>
+            <url>https://qbic-repo.am10.uni-tuebingen.de/repository/maven-releases</url>
+        </repository>
+        <snapshotRepository>
+            <uniqueVersion>false</uniqueVersion>
+            <id>nexus-snapshots</id>
+            <name>QBiC Snapshots</name>
+            <url>https://qbic-repo.am10.uni-tuebingen.de/repository/maven-snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <dependencies>
         <dependency>
