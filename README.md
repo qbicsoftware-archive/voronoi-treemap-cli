@@ -1,7 +1,7 @@
 Voronoi-treemaps-CLI
 ======
 This is part of the voronoi visualisation of hierarchical data. See here for the visualisation: [Voronoi-treemaps-GUI](https://github.com/qbicsoftware/voronoi-treemaps-GUI).
--c title pathway_id ID X0h_dnE47dox0h_vs_dnE47noDox0hlog2FC X0h_dnE47dox0h_vs_RFPdox0hlog2FC X0h_dnE47noDox0h_vs_RFPnoDox0hlog2FC 
+
 This tool creates a voronoi treemap from data provided by a csv or tsv file and writes it as an html file. This html file can then be viewed in a browser. 
 
 Quick Setup for developers
