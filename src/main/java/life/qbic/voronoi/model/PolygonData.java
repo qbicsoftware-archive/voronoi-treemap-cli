@@ -1,4 +1,4 @@
-package treemaps_CLI;
+package life.qbic.voronoi.model;
 
 import kn.uni.voronoitreemap.j2d.PolygonSimple;
 
@@ -33,16 +33,8 @@ public class PolygonData {
         return level;
     }
 
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
     public PolygonSimple getPolygon() {
         return polygon;
-    }
-
-    public void setPolygon(PolygonSimple polygon) {
-        this.polygon = polygon;
     }
 
     public Color getColor() {
@@ -65,7 +57,7 @@ public class PolygonData {
     }
 
     public void setRatios(List<Double> ratios) {
-        this.ratios = new ArrayList<Double>(ratios);
+        this.ratios = new ArrayList<>(ratios);
     }
 
 }

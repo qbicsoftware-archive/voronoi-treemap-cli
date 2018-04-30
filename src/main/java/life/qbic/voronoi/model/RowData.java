@@ -1,4 +1,4 @@
-package treemaps_CLI;
+package life.qbic.voronoi.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +9,8 @@ public class RowData {
     private List<Double> ratios;
 
     public RowData(List<String> levels, List<Double> ratios) {
-        this.levels = new ArrayList<String>(levels);
-        this.ratios = new ArrayList<Double>(ratios);
+        this.levels = new ArrayList<>(levels);
+        this.ratios = new ArrayList<>(ratios);
     }
 
     public List<String> getLevels() {
@@ -26,7 +26,7 @@ public class RowData {
     }
 
     public void setRatios(List<Double> ratios) {
-        this.ratios = new ArrayList<Double>(ratios);
+        this.ratios = new ArrayList<>(ratios);
     }
 
 }

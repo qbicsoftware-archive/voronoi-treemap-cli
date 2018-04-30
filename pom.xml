@@ -6,7 +6,7 @@
 
     <groupId>life.qbic</groupId>
     <artifactId>voronoi-treemaps-cli</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.0.3-SNAPSHOT</version>
     <packaging>jar</packaging>
     <build>
         <plugins>
@@ -24,7 +24,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>treemaps_CLI.VoronoiTreemapFromTable</mainClass>
+                            <mainClass>life.qbic.voronoi.VoronoiTreemapStartup</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

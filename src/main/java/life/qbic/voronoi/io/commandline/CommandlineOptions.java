@@ -1,4 +1,4 @@
-package io.commandline;
+package life.qbic.voronoi.io.commandline;
 
 import picocli.CommandLine.Option;
 
@@ -8,26 +8,26 @@ import java.util.List;
 public class CommandlineOptions {
 
     @Option(names = {"-f", "--file", "-i", "--input"}, description = "csv or tsv file to generate a Treemap from", required = true)
-    private String infile;
+    private String inFile;
 
-    @Option(names = {"-o", "--output"}, description = "output file path for the generated treemap html file - default: /tmp/VoroTreemap.html")
-    private String output = "/tmp/VoroTreemap.html";
+    @Option(names = {"-o", "--outputFile"}, description = "outputFile file path for the generated treemap html file - default: /tmp/VoroTreemap.html")
+    private String outputFile = "/tmp/VoroTreemap.html";
 
     @Option(names = {"-c", "--col"}, description = "names of the columns in the provided file", arity = "1..*")
     private List<String> columnNames = new ArrayList<>();
 
-    @Option(names = {"-t", "temporary"}, description = "save result in /tmp and delete afterwards, @|fg(red) only |@ use this with GUI versions!")
+    @Option(names = {"-t", "temporary"}, description = "save result in /tmp and delete afterwards, @|fg(red) only|@ use this with GUI versions!")
     private boolean temporaryHtml = false;
 
     @Option(names = {"-h", "--help"}, description = "display a help message", usageHelp = true)
     private boolean helpRequested;
 
-    public String getInfile() {
-        return infile;
+    public String getInFile() {
+        return inFile;
     }
 
-    public String getOutput() {
-        return output;
+    public String getOutputFile() {
+        return outputFile;
     }
 
     public List<String> getColumnNames() {
