@@ -33,7 +33,9 @@ Add the following parameters in order to generate the voronoi html file:
 Examples  
 =====
 Using the example file 'a_24_cancer_pathway_2136_elements.tsv' in the examples folder:
-One can take a look at the supplemented 'cw_indices' file in order to find out which columns of interest should be visualised.-c title pathway_id ID X0h_dnE47dox0h_vs_dnE47noDox0hlog2FC X0h_dnE47dox0h_vs_RFPdox0hlog2FC X0h_dnE47noDox0h_vs_RFPnoDox0hlog2FC 
+
+One can take a look at the supplemented 'cw_indices' file in order to find out which columns of interest should be visualised.
+
 Now we can run the project using our shell of choice:
 
 <code>java -jar -f a_24_cancer_pathway_2136_elements.tsv -c title pathway_id ID X0h_dnE47dox0h_vs_dnE47noDox0hlog2FC X0h_dnE47dox0h_vs_RFPdox0hlog2FC X0h_dnE47noDox0h_vs_RFPnoDox0hlog2FC -o /home/fancyVoronoiTreemap.html</code>
