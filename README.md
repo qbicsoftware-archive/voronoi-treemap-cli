@@ -14,7 +14,7 @@ Usage
 =====
 Download the jar: [Voronoi-treemaps-cli releases](https://github.com/qbicsoftware/voronoi-treemaps-CLI/releases). 
 
-The example files are provided in the folder <examples>. 
+The example files are provided in the folder [examples]. 
   
 Run the project with your favorite shell using at least Java 8: <code>java -jar voronoi-treemaps-cli [additional parameters]</code>.
 
