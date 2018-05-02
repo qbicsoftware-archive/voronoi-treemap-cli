@@ -4,6 +4,8 @@ import kn.uni.voronoitreemap.j2d.PolygonSimple;
 import life.qbic.voronoi.VoronoiTreemapStartup;
 import life.qbic.voronoi.model.PolygonData;
 import life.qbic.voronoi.util.NumberUtil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
 import java.awt.font.FontRenderContext;
@@ -13,16 +15,20 @@ import java.util.List;
 
 public class HTMLWriter {
 
+    private static final Logger LOG = LogManager.getLogger(HTMLWriter.class);
+
     /**
      * Write several information and svg content that shows the finished Voronoi treemap into existing html file.
      *
      * @param polygonData
      * @throws IOException
      */
-    public static void writeToHtml(List<PolygonData> polygonData, boolean writeTemporaryFile, double size, int border, String outputFilePath) {
+    public static String writeToHtml(List<PolygonData> polygonData, boolean writeTemporaryFile, double size, int border, String outputFilePath) {
+        LOG.info("Writing the finished html file into the HTML file");
         StringBuilder contentBuilder = new StringBuilder();
-
+        LOG.info("Fetching template file");
         InputStream inputStream = VoronoiTreemapStartup.class.getClassLoader().getResourceAsStream("VoroTreemapTemplate.html");
+        LOG.info("Received template file");
 
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
@@ -72,13 +78,13 @@ public class HTMLWriter {
 
                     // text settings
                     str += "<g id='names'>";
-                    String name = null;
+                    String name;
 
                     float fontSize = 12;
 
-                    Rectangle2D bounds = null;
-                    double width = 0.0d;
-                    double height = 0.0d;
+                    Rectangle2D bounds;
+                    double width;
+                    double height;
 
                     for (PolygonData pDat : polygonData) {
                         name = pDat.getName().replace(" ", "\n");
@@ -121,29 +127,34 @@ public class HTMLWriter {
 
             in.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Error while writing HTML file");
         }
 
         String content = contentBuilder.toString();
 
         try {
             if (writeTemporaryFile) {
+                LOG.info("");
                 File temp = File.createTempFile("voroTreemap", ".html");
                 temp.deleteOnExit();
                 FileWriter htmlWriter = new FileWriter(temp);
                 htmlWriter.write(content);
                 htmlWriter.close();
-                outputFilePath = temp.getAbsolutePath();
-                System.out.println("Treemap written to temporary filepath: " + temp.getAbsolutePath());
+                LOG.info("Treemap written to temporary filepath: " + temp.getAbsolutePath());
+                return temp.getAbsolutePath();
             } else {
                 FileWriter htmlWriter = new FileWriter(outputFilePath);
                 htmlWriter.write(content);
                 htmlWriter.close();
-                System.out.println("Treemap written to: " + outputFilePath);
+                LOG.info("Treemap written to: " + outputFilePath);
+                return outputFilePath;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Unable to save the finished HTML file in: " + outputFilePath);
+            System.exit(1);
         }
+
+        return null;
     }
 
     /**
@@ -178,7 +189,6 @@ public class HTMLWriter {
 
             // adjust size of text with line breaks
             if (name.contains("\n")) {
-
                 String longest = "";
                 int count = 0;
 

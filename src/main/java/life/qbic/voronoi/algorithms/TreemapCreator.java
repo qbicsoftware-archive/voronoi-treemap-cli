@@ -11,6 +11,8 @@ import life.qbic.voronoi.model.PolygonData;
 import life.qbic.voronoi.model.RowData;
 import life.qbic.voronoi.util.NumberUtil;
 import life.qbic.voronoi.util.RowDataComparator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
 import java.io.IOException;
@@ -23,6 +25,8 @@ public class TreemapCreator {
     private static final int border = 6;
     private static double size = 800;
 
+    private static final Logger LOG = LogManager.getLogger(TreemapCreator.class);
+
     /**
      * entry point for the treemap creation algorithm
      *
@@ -32,7 +36,7 @@ public class TreemapCreator {
      * @param columnNames
      * @throws IOException
      */
-    public static void startTreemapCreation(String inFilePath, String outputFilePath, boolean isTemporaryHtml, List<String> columnNames) throws IOException {
+    public static String startTreemapCreation(String inFilePath, String outputFilePath, boolean isTemporaryHtml, List<String> columnNames) throws IOException {
         // create a convex root polygon
         PolygonSimple rootPolygon = new PolygonSimple();
 
@@ -45,7 +49,7 @@ public class TreemapCreator {
         List<RowData> csvRows = CSVToRowDataParser.parseCSV(inFilePath, columnNames);
         csvRows.sort(new RowDataComparator());
         TreeData data = createHierarchy(csvRows);
-
+        LOG.info("finished creation of VoroCells");
         // data.setWeight("file036", 4);// increase cell size (leafs only)
 
         VoronoiTreemap treemap = new VoronoiTreemap();
@@ -69,7 +73,7 @@ public class TreemapCreator {
 
         createColorEncoding(polygonData, csvRows);
 
-        HTMLWriter.writeToHtml(polygonData, isTemporaryHtml, size, border, outputFilePath);
+        return HTMLWriter.writeToHtml(polygonData, isTemporaryHtml, size, border, outputFilePath);
     }
 
     /**
@@ -80,6 +84,7 @@ public class TreemapCreator {
      * @return TreeData object
      */
     private static TreeData createHierarchy(List<RowData> cellData) {
+        LOG.info("Creating hierarchy of VoroCells");
         TreeData data = new TreeData();
 
         List<String> duplicateHelper = new ArrayList<>();
@@ -161,6 +166,7 @@ public class TreemapCreator {
      * @param polygonData
      */
     private static void createColorEncoding(List<PolygonData> polygonData, List<RowData> rowsData) {
+        LOG.info("Creating color encoding");
         List<Double> ratios = new ArrayList<>();
         List<Double> ratiosLower = new ArrayList<>();
         List<Double> ratiosUpper = new ArrayList<>();
@@ -209,6 +215,8 @@ public class TreemapCreator {
                 }
             }
         }
+
+        LOG.info("Finished creating color encoding");
     }
 
 }

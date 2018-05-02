@@ -6,6 +6,8 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import kn.uni.voronoitreemap.j2d.PolygonSimple;
 import life.qbic.voronoi.model.PolygonData;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -14,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PolygonDataParser {
+
+    private static final Logger LOG = LogManager.getLogger(PolygonData.class);
 
     /**
      * read all the data of each polygon in the given text file and return it as PolygonData object.
@@ -24,6 +28,8 @@ public class PolygonDataParser {
      * @throws IOException
      */
     public static List<PolygonData> readPolygonData(String txtFile) throws FileNotFoundException, IOException {
+        LOG.info("reading in polygon data");
+
         List<PolygonData> polygonData = new ArrayList<>();
 
         String name = null;
@@ -82,6 +88,8 @@ public class PolygonDataParser {
         }
 
         reader.close();
+
+        LOG.info("Finished reading in polygon data");
         return polygonData;
     }
 }

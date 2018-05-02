@@ -5,6 +5,9 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import life.qbic.voronoi.model.RowData;
 import life.qbic.voronoi.util.NumberUtil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -13,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CSVToRowDataParser {
+
+    private static final Logger LOG = LogManager.getLogger(CSVToRowDataParser.class);
 
     /**
      * reads a .csv file by given column names and returns a list consisting of VoroCell objects that hold
@@ -24,6 +29,7 @@ public class CSVToRowDataParser {
      * @throws IOException
      */
     public static List<RowData> parseCSV(String csvFilePath, List<String> columns) throws FileNotFoundException, IOException {
+        LOG.info("Parsing csv/tsv data");
         List<RowData> voroCells = new ArrayList<>();
 
         com.opencsv.CSVParser parser = new CSVParserBuilder()
@@ -63,6 +69,8 @@ public class CSVToRowDataParser {
             ratios.clear();
         }
         reader.close();
+
+        LOG.info("Finished parsing csv/tsv data");
         return voroCells;
     }
 
