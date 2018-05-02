@@ -28,7 +28,7 @@ Add the following parameters in order to generate the voronoi html file:
   
   -o </path/to/outputFile.html>
   
-  -t saves the generated html file in /tmp, but cleans it up when the JVM stop! Only use this in conjunction with a portlet/GUI version
+  -t saves the generated html file in /tmp, but cleans it up when the JVM stops! Only use this in conjunction with a portlet/GUI version
   
 Examples  
 =====
