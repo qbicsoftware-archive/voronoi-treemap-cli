@@ -1,12 +1,17 @@
 package life.qbic.voronoi;
 
 import java.io.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import life.qbic.voronoi.algorithms.TreemapCreator;
 import life.qbic.voronoi.io.commandline.CommandLineParser;
 import life.qbic.voronoi.io.commandline.CommandlineOptions;
+import picocli.CommandLine;
 
 public class VoronoiTreemapStartup {
+
+    private static final Logger LOG = LogManager.getLogger(VoronoiTreemapStartup.class);
 
     private static String outputFilePath;
 
@@ -17,7 +22,11 @@ public class VoronoiTreemapStartup {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
-        createTreemap(args);
+        try {
+            createTreemap(args);
+        } catch (CommandLine.PicocliException e) {
+            LOG.error("Error parsing commandline arguments: " + e.getMessage());
+        }
     }
 
     public static void createTreemap(String[] parameters) throws IOException {
@@ -32,7 +41,7 @@ public class VoronoiTreemapStartup {
         setOutputFilePath(writtenHTMLFilePath);
     }
 
-    // required for anything GUI related!
+    // required for anything GUI/porlet related!
     public static String getOutputFilePath() {
         return outputFilePath;
     }

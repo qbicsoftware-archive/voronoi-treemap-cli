@@ -15,6 +15,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -67,9 +68,12 @@ public class TreemapCreator {
 //		treemap.setStatusObject(new PDFStatusObject("miniHierarchy", treemap));
 //		treemap.setStatusObject(new PNGStatusObject("miniHierarchy", treemap));
 
-        treemap.setStatusObject(new WriteStatusObject("VoroTreemap", treemap));
+        File tempPolygonFile = File.createTempFile("voronoi_polygon", ".tmp");
+        System.out.println(tempPolygonFile.getAbsolutePath());
+
+        treemap.setStatusObject(new WriteStatusObject(tempPolygonFile.getAbsolutePath(), treemap));
         treemap.computeLocked();
-        List<PolygonData> polygonData = PolygonDataParser.readPolygonData( "VoroTreemap.txt");
+        List<PolygonData> polygonData = PolygonDataParser.readPolygonData(tempPolygonFile.getAbsolutePath() + ".txt");
 
         createColorEncoding(polygonData, csvRows);
 
