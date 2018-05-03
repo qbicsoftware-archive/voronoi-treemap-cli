@@ -28,8 +28,6 @@ public class PolygonDataParser {
      * @throws IOException
      */
     public static List<PolygonData> readPolygonData(String txtFile) throws FileNotFoundException, IOException {
-        LOG.info("reading in polygon data");
-
         List<PolygonData> polygonData = new ArrayList<>();
 
         String name = null;
@@ -89,7 +87,6 @@ public class PolygonDataParser {
 
         reader.close();
 
-        LOG.info("Finished reading in polygon data");
         return polygonData;
     }
 }

@@ -13,7 +13,7 @@ public class CommandlineOptions {
     @Option(names = {"-o", "--outputFile"}, description = "outputFile file path for the generated treemap html file - default: /tmp/VoroTreemap.html")
     private String outputFile = "/tmp/VoroTreemap.html";
 
-    @Option(names = {"-c", "--col"}, description = "names of the columns in the provided file", arity = "1..*")
+    @Option(names = {"-c", "--col"}, description = "names of the columns in the provided file", arity = "1..*", required = true)
     private List<String> columnNames = new ArrayList<>();
 
     @Option(names = {"-t", "temporary"}, description = "save result in /tmp and delete afterwards, @|fg(red) only|@ use this with GUI versions!")

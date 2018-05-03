@@ -50,7 +50,7 @@ public class TreemapCreator {
         List<RowData> csvRows = CSVToRowDataParser.parseCSV(inFilePath, columnNames);
         csvRows.sort(new RowDataComparator());
         TreeData data = createHierarchy(csvRows);
-        LOG.info("finished creation of VoroCells");
+        LOG.info("Finished creation of VoroCells");
         // data.setWeight("file036", 4);// increase cell size (leafs only)
 
         VoronoiTreemap treemap = new VoronoiTreemap();
@@ -69,10 +69,11 @@ public class TreemapCreator {
 //		treemap.setStatusObject(new PNGStatusObject("miniHierarchy", treemap));
 
         File tempPolygonFile = File.createTempFile("voronoi_polygon", ".tmp");
-        System.out.println(tempPolygonFile.getAbsolutePath());
 
+        LOG.info("Writing polygon data to: " + tempPolygonFile.getAbsolutePath() + ".txt");
         treemap.setStatusObject(new WriteStatusObject(tempPolygonFile.getAbsolutePath(), treemap));
         treemap.computeLocked();
+        LOG.info("Reading polygon data");
         List<PolygonData> polygonData = PolygonDataParser.readPolygonData(tempPolygonFile.getAbsolutePath() + ".txt");
 
         createColorEncoding(polygonData, csvRows);
