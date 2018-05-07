@@ -24,7 +24,7 @@ public class HTMLWriter {
      * @throws IOException
      */
     public static String writeToHtml(List<PolygonData> polygonData, boolean writeTemporaryFile, double size, int border, String outputFilePath) {
-        LOG.info("Writing the finished html file into the HTML file");
+        LOG.info("Started writing the Treemap HTML file");
         StringBuilder contentBuilder = new StringBuilder();
         LOG.info("Fetching template file");
         InputStream inputStream = VoronoiTreemapStartup.class.getClassLoader().getResourceAsStream("VoroTreemapTemplate.html");
@@ -127,14 +127,13 @@ public class HTMLWriter {
 
             in.close();
         } catch (IOException e) {
-            LOG.error("Error while writing HTML file");
+            LOG.error("Error while writing HTML file: " + e.getMessage());
         }
 
         String content = contentBuilder.toString();
 
         try {
             if (writeTemporaryFile) {
-                LOG.info("");
                 File temp = File.createTempFile("voroTreemap", ".html");
                 temp.deleteOnExit();
                 FileWriter htmlWriter = new FileWriter(temp);
