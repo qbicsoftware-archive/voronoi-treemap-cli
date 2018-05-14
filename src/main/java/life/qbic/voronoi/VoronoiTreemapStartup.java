@@ -26,6 +26,7 @@ public class VoronoiTreemapStartup {
             createTreemap(args);
         } catch (CommandLine.PicocliException e) {
             LOG.error("Error parsing commandline arguments: " + e.getMessage());
+            System.exit(1);
         }
     }
 
@@ -41,7 +42,7 @@ public class VoronoiTreemapStartup {
         setOutputFilePath(writtenHTMLFilePath);
     }
 
-    // required for anything GUI/porlet related!
+    // required for anything GUI/portlet related!
     public static String getOutputFilePath() {
         return outputFilePath;
     }

@@ -128,6 +128,12 @@ public class HTMLWriter {
             in.close();
         } catch (IOException e) {
             LOG.error("Error while writing HTML file: " + e.getMessage());
+            System.exit(1);
+        }
+
+        catch (NullPointerException e) {
+            LOG.error("Error while writing data - unsupported parameter passed!");
+            System.exit(1);
         }
 
         String content = contentBuilder.toString();
@@ -150,6 +156,7 @@ public class HTMLWriter {
             }
         } catch (IOException e) {
             LOG.error("Unable to save the finished HTML file in: " + outputFilePath);
+            LOG.error("Is " + outputFilePath + " accessible?");
             System.exit(1);
         }
 

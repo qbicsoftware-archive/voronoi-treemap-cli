@@ -6,7 +6,7 @@
 
     <groupId>life.qbic</groupId>
     <artifactId>voronoi-treemaps-cli</artifactId>
-    <version>1.0.8-SNAPSHOT</version>
+    <version>1.0.13-SNAPSHOT</version>
     <packaging>jar</packaging>
     <build>
         <plugins>
@@ -47,9 +47,9 @@
             <url>https://qbic-repo.am10.uni-tuebingen.de/repository/maven-snapshots</url>
         </repository>
         <repository>
-        <id>nexus-releases</id>
-        <name>QBiC Releases</name>
-        <url>https://qbic-repo.am10.uni-tuebingen.de/repository/maven-releases</url>
+            <id>nexus-releases</id>
+            <name>QBiC Releases</name>
+            <url>https://qbic-repo.am10.uni-tuebingen.de/repository/maven-releases</url>
         </repository>
     </repositories>
 
@@ -84,7 +84,7 @@
         <dependency>
             <groupId>info.picocli</groupId>
             <artifactId>picocli</artifactId>
-            <version>3.0.0-beta-2</version>
+            <version>3.0.0</version>
         </dependency>
 
         <dependency>
@@ -105,5 +105,5 @@
         </dependency>
     </dependencies>
 
-    
+
 </project>
