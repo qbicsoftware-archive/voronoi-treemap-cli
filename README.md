@@ -38,7 +38,7 @@ One can take a look at the supplemented 'cw_indices' file in order to find out w
 
 Now we can run the project using our shell of choice:
 
-<code>java -jar -f a_24_cancer_pathway_2136_elements.tsv -c title pathway_id ID X0h_dnE47dox0h_vs_dnE47noDox0hlog2FC X0h_dnE47dox0h_vs_RFPdox0hlog2FC X0h_dnE47noDox0h_vs_RFPnoDox0hlog2FC -o /home/fancyVoronoiTreemap.html</code>
+<code>java -jar voronoi-treemaps-cli-1.0.13-SNAPSHOT.jar -f a_24_cancer_pathway_2136_elements.tsv -c title pathway_id ID X0h_dnE47dox0h_vs_dnE47noDox0hlog2FC X0h_dnE47dox0h_vs_RFPdox0hlog2FC X0h_dnE47noDox0h_vs_RFPnoDox0hlog2FC -o /home/fancyVoronoiTreemap.html</code>
 
 This will result in a html file called 'fancyVoronoiTreemap.html' in /home. This file can now be opened using your browser of choice.
 
