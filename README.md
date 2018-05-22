@@ -20,12 +20,12 @@ The example files are provided in the folder [examples].
 ```bash
 > java -jar java -jar voronoi-treemaps-cli -h
 usage: voronoi-treemaps-tsv-creator.jar -f <inputfile> -c <columnlist> -o <outputpath> [-h]
- -h, --datafile         show this help page)
- -f, --file <arg>      tsv-file for treemap creation
- -c, --col  <args>     list of columns of which a treemap should be created of
- -o, --outputpath <arg> output path for the final treemap
- -t, saves the generated html file in /tmp, but cleans it up when the JVM stops!
-     Only use this in conjunction with a portlet/GUI version
+ -h, --help               show this help page)
+ -f, --file       <arg>   tsv-file for treemap creation
+ -c, --col        <args>  list of columns of which a treemap should be created of
+ -o, --outputpath <arg>   output path for the final treemap
+ -t,                      saves the generated html file in /tmp, but cleans it up when the JVM stops!
+                          Only use this in conjunction with a portlet/GUI version
 ```
   
 Examples  
