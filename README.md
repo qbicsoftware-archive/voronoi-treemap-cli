@@ -18,7 +18,7 @@ The example files are provided in the folder [examples].
 
 ## The CLI - Command Line Interface
 ```bash
-> java -jar java -jar voronoi-treemaps-cli -h
+> java -jar voronoi-treemaps-cli -h
 usage: voronoi-treemaps-tsv-creator.jar -f <inputfile> -c <columnlist> -o <outputpath> [-h]
  -h, --help               show this help page)
  -f, --file       <arg>   tsv-file for treemap creation
