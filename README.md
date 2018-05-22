@@ -15,20 +15,18 @@ Usage
 Download the jar: [Voronoi-treemaps-cli releases](https://github.com/qbicsoftware/voronoi-treemaps-CLI/releases). 
 
 The example files are provided in the folder [examples]. 
-  
-Run the project with your favorite shell using at least Java 8: <code>java -jar voronoi-treemaps-cli [additional parameters]</code>.
 
-Add the following parameters in order to generate the voronoi html file:
-  
-  -h displays a help menu
-  
-  -f </path/to/inputFile.csv> or </path/to/inputFile.tsv> input file
-  
-  -c <[columns]> provide a list of columns
-  
-  -o </path/to/outputFile.html>
-  
-  -t saves the generated html file in /tmp, but cleans it up when the JVM stops! Only use this in conjunction with a portlet/GUI version
+## The CLI - Command Line Interface
+```bash
+> java -jar java -jar voronoi-treemaps-cli -h
+usage: voronoi-treemaps-tsv-creator.jar -f <inputfile> -c <columnlist> -o <outputpath> [-h]
+ -h, --datafile         show this help page)
+ -f, --file <arg>      tsv-file for treemap creation
+ -c, --col  <args>     list of columns of which a treemap should be created of
+ -o, --outputpath <arg> output path for the final treemap
+ -t, saves the generated html file in /tmp, but cleans it up when the JVM stops!
+     Only use this in conjunction with a portlet/GUI version
+```
   
 Examples  
 =====
@@ -38,9 +36,9 @@ One can take a look at the supplemented 'cw_indices' file in order to find out w
 
 Now we can run the project using our shell of choice:
 
-<code>java -jar voronoi-treemaps-cli-1.0.13-SNAPSHOT.jar -f a_24_cancer_pathway_2136_elements.tsv -c title pathway_id ID X0h_dnE47dox0h_vs_dnE47noDox0hlog2FC X0h_dnE47dox0h_vs_RFPdox0hlog2FC X0h_dnE47noDox0h_vs_RFPnoDox0hlog2FC -o /home/fancyVoronoiTreemap.html</code>
+<code>java -jar voronoi-treemaps-cli-1.0.13-SNAPSHOT.jar -f /inputpath/to/a_24_cancer_pathway_2136_elements.tsv -c title pathway_id ID X0h_dnE47dox0h_vs_dnE47noDox0hlog2FC X0h_dnE47dox0h_vs_RFPdox0hlog2FC X0h_dnE47noDox0h_vs_RFPnoDox0hlog2FC -o /outputpath/to/fancyVoronoiTreemap.html</code>
 
-This will result in a html file called 'fancyVoronoiTreemap.html' in /home. This file can now be opened using your browser of choice.
+This will result in a html file called 'fancyVoronoiTreemap.html' in /outputpath/to. This file can now be opened using your modern browser of choice.
 
 Authors
 =====
