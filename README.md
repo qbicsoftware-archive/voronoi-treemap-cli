@@ -1,4 +1,4 @@
-Voronoi-treemaps-CLI
+voronoi-treemaps-cli
 ======
 This is part of the voronoi visualisation of hierarchical data. See here for the visualisation: [Voronoi-treemaps-portlet](https://github.com/qbicsoftware/voronoi-treemaps-GUI).
 
@@ -14,7 +14,7 @@ Usage
 =====
 Download the jar: [Voronoi-treemaps-cli releases](https://github.com/qbicsoftware/voronoi-treemaps-CLI/releases). 
 
-The example files are provided in the folder [examples]. 
+The example files are provided in the folder [examples](https://github.com/qbicsoftware/voronoi-treemap-cli/tree/development/examples). 
 
 ## The CLI - Command Line Interface
 ```bash
@@ -32,7 +32,7 @@ Examples
 =====
 Using the example file 'a_24_cancer_pathway_2136_elements.tsv' in the examples folder:
 
-One can take a look at the supplemented 'cw_indices' file in order to find out which columns of interest should be visualised.
+Take a look at the supplemented 'cw_indices' file in order to find out which columns of interest should be visualised.
 
 Now we can run the project using our shell of choice:
 
