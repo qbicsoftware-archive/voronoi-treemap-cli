@@ -14,7 +14,7 @@ public class CommandLineParser {
      * @param args always has to be a String[] or portlet compatibility breaks!
      */
     public static CommandlineOptions parseCommandlineParameters(String[] args) {
-        LOG.info("Parsing commandline parameters");
+        LOG.debug("Parsing commandline parameters");
         //no input -> display help
         if (args.length == 0) {
             LOG.info("No commandline parameters passed -> displaying help");
@@ -25,12 +25,12 @@ public class CommandLineParser {
         CommandlineOptions commandlineOptions = CommandLine.populateCommand(new CommandlineOptions(), args);
 
         if (commandlineOptions.isHelpRequested()) {
-            LOG.info("Help requested");
+            LOG.debug("Help requested");
             CommandLine.usage(new CommandlineOptions(), System.out);
             System.exit(0);
         }
 
-        LOG.info("Successfully parsed commandline parameters");
+        LOG.debug("Successfully parsed commandline parameters");
 
         return commandlineOptions;
     }

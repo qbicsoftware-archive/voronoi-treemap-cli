@@ -14,6 +14,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class PolygonDataParser {
 
@@ -28,9 +29,10 @@ public class PolygonDataParser {
      * @throws IOException
      */
     public static List<PolygonData> readPolygonData(String txtFile) throws FileNotFoundException, IOException {
+        LOG.info("Reading polygon data");
         List<PolygonData> polygonData = new ArrayList<>();
 
-        String name = null;
+        String name = "";
         int level = 0;
         PolygonSimple poly = null;
 
@@ -82,11 +84,13 @@ public class PolygonDataParser {
                         break;
                 }
             }
+
             polygonData.add(new PolygonData(name, level, poly));
         }
 
         reader.close();
 
+        LOG.info("Finished reading polygon data");
         return polygonData;
     }
 }

@@ -64,6 +64,7 @@ public class CSVToRowDataParser {
                     }
                 }
             }
+
             voroCells.add(new RowData(levels, ratios));
             levels.clear();
             ratios.clear();

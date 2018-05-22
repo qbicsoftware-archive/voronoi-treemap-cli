@@ -12,6 +12,7 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;
 import java.io.*;
 import java.util.List;
+import java.util.Optional;
 
 public class HTMLWriter {
 

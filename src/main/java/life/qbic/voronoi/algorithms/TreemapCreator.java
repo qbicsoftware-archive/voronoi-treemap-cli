@@ -1,6 +1,5 @@
 package life.qbic.voronoi.algorithms;
 
-import kn.uni.voronoitreemap.IO.WriteStatusObject;
 import kn.uni.voronoitreemap.interfaces.data.TreeData;
 import kn.uni.voronoitreemap.j2d.PolygonSimple;
 import kn.uni.voronoitreemap.treemap.VoronoiTreemap;
@@ -9,6 +8,7 @@ import life.qbic.voronoi.io.parser.PolygonDataParser;
 import life.qbic.voronoi.io.writer.HTMLWriter;
 import life.qbic.voronoi.model.PolygonData;
 import life.qbic.voronoi.model.RowData;
+import life.qbic.voronoi.io.writer.TreeWriteStatusObject;
 import life.qbic.voronoi.util.NumberUtil;
 import life.qbic.voronoi.util.RowDataComparator;
 import org.apache.logging.log4j.LogManager;
@@ -69,12 +69,11 @@ public class TreemapCreator {
 //		treemap.setStatusObject(new PNGStatusObject("miniHierarchy", treemap));
 
         File tempPolygonFile = File.createTempFile("voronoi_polygon", ".tmp");
+        LOG.info("Writing polygon data to: " + tempPolygonFile.getAbsolutePath());
 
-        LOG.info("Writing polygon data to: " + tempPolygonFile.getAbsolutePath() + ".txt");
-        treemap.setStatusObject(new WriteStatusObject(tempPolygonFile.getAbsolutePath(), treemap));
+        treemap.setStatusObject(new TreeWriteStatusObject(tempPolygonFile.getAbsolutePath(), treemap));
         treemap.computeLocked();
-        LOG.info("Reading polygon data");
-        List<PolygonData> polygonData = PolygonDataParser.readPolygonData(tempPolygonFile.getAbsolutePath() + ".txt");
+        List<PolygonData> polygonData = PolygonDataParser.readPolygonData(tempPolygonFile.getAbsolutePath());
 
         createColorEncoding(polygonData, csvRows);
 
@@ -104,7 +103,7 @@ public class TreemapCreator {
             List<String> parentList = new ArrayList<>();
             parentList.add(p);
 
-            i = addLevel(data, cellData, parentList, duplicateHelper, "", 0, i);    // add next level to root
+            i = addLevel(data, cellData, parentList, duplicateHelper, "", 0, i); // add next level to root
             if (i >= cellData.size())
                 return data;
         }
@@ -138,7 +137,7 @@ public class TreemapCreator {
 
             data.addLink(currName + duplicateTag, prevName + parentTag);
 
-            // set weight based on occurences of this element in the data
+            // set weight based on occurrences of this element in the data
             double weight = 1.0d / (occurrences);
             if (prevNum + 1 == cellData.get(i).getLevels().size() - 1) {
                 data.setWeight(currName, weight);
