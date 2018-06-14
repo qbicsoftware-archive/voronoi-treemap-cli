@@ -1,6 +1,6 @@
 voronoi-treemap-cli
 ======
-This is part of the voronoi visualisation of hierarchical data. See here for the visualisation: [Voronoi-treemaps-portlet](https://github.com/qbicsoftware/voronoi-treemaps-GUI).
+This is part of the voronoi visualisation of hierarchical data. See here for the portlet: [Voronoi-treemaps-portlet](https://github.com/qbicsoftware/voronoi-treemaps-GUI).
 
 This tool creates a voronoi treemap from data provided by a csv or tsv file and writes it as an html file. This html file can then be viewed in a browser. 
 
